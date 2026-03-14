@@ -136,7 +136,7 @@ class SnapshotRepository:
         cursor = self.conn.execute(
             "INSERT INTO bsr_snapshots (comp_id, snapshot_date, bsr, price, rating, reviews, kindle_unlimited) "
             "VALUES (?, ?, ?, ?, ?, ?, ?)",
-            (snapshot.comp_id, snapshot.snapshot_date.isoformat(), snapshot.bsr,
+            (snapshot.comp_id, snapshot.snapshot_date if isinstance(snapshot.snapshot_date, str) else snapshot.snapshot_date.isoformat(), snapshot.bsr,
              snapshot.price, snapshot.rating, snapshot.reviews,
              int(snapshot.kindle_unlimited)),
         )

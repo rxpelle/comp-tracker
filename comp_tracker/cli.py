@@ -105,8 +105,9 @@ def list_comps(ctx, active_only):
 @click.option('--rating', default=None, type=float, help='Average rating')
 @click.option('--reviews', default=None, type=int, help='Number of reviews')
 @click.option('--ku', is_flag=True, help='In Kindle Unlimited')
+@click.option('--date', '-d', default=None, help='Snapshot date (YYYY-MM-DD), defaults to today')
 @click.pass_context
-def record(ctx, title_or_asin, bsr, price, rating, reviews, ku):
+def record(ctx, title_or_asin, bsr, price, rating, reviews, ku, date):
     """Record a BSR snapshot for a comp title."""
     comp_repo, snap_repo = _get_repos(ctx.obj['db_path'])
     comp = comp_repo.find_by_title_or_asin(title_or_asin)
@@ -117,7 +118,7 @@ def record(ctx, title_or_asin, bsr, price, rating, reviews, ku):
 
     snapshot = BSRSnapshot(
         comp_id=comp.id,
-        snapshot_date=None,
+        snapshot_date=date,
         bsr=bsr,
         price=price,
         rating=rating,
